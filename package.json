@@ -1,5 +1,5 @@
 {
-  "name": "telegram-supabase-bot",
+  "name": "mg-bot-function",
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
