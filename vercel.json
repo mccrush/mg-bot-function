@@ -2,7 +2,7 @@
   "version": 2,
   "functions": {
     "api/telegram-webhook.js": {
-      "runtime": "nodejs@24.x",
+      "runtime": "nodejs@24.11.0",
       "maxDuration": 10
     }
   },
