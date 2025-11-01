@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   // Ищем пользователя по tg_username
   const { data: profiles, error: fetchError } = await supabase
     .from("profiles")
-    .select("id, chat_bot_id")
+    .select("id, tg_chat_id")
     .eq("tg_username", tgUsername);
 
   if (fetchError) {
@@ -39,16 +39,16 @@ export default async function handler(req, res) {
 
   const user = profiles[0];
 
-  // Проверка: если chat_bot_id уже установлен — ничего не делаем
-  if (user.chat_bot_id) {
-    console.log(`User ${tgUsername} already has chat_bot_id: ${user.chat_bot_id}`);
+  // Проверка: если tg_chat_id уже установлен — ничего не делаем
+  if (user.tg_chat_id) {
+    console.log(`User ${tgUsername} already has tg_chat_id: ${user.tg_chat_id}`);
     return res.status(200).send("Already linked");
   }
 
-  // Обновляем chat_bot_id
+  // Обновляем tg_chat_id
   const { error: updateError } = await supabase
     .from("profiles")
-    .update({ chat_bot_id: chatId })
+    .update({ tg_chat_id: chatId })
     .eq("id", user.id);
 
   if (updateError) {
