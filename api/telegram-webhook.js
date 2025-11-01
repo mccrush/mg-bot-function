@@ -22,8 +22,8 @@ export default async function handler(req, res) {
   );
 
   // Ищем пользователя по tg_username
-  const { data: profiles, error: fetchError } = await supabase
-    .from("profiles")
+  const { data: users, error: fetchError } = await supabase
+    .from("users")
     .select("id, tg_chat_id")
     .eq("tg_username", tgUsername);
 
@@ -32,12 +32,12 @@ export default async function handler(req, res) {
     return res.status(500).send("Supabase fetch error");
   }
 
-  if (!profiles || profiles.length === 0) {
+  if (!users || users.length === 0) {
     await sendMessage(chatId, "Ваш Telegram не найден в системе. Проверьте настройки профиля.");
     return res.status(200).send("User not found");
   }
 
-  const user = profiles[0];
+  const user = users[0];
 
   // Проверка: если tg_chat_id уже установлен — ничего не делаем
   if (user.tg_chat_id) {
@@ -47,7 +47,7 @@ export default async function handler(req, res) {
 
   // Обновляем tg_chat_id
   const { error: updateError } = await supabase
-    .from("profiles")
+    .from("users")
     .update({ tg_chat_id: chatId })
     .eq("id", user.id);
 
